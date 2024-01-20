@@ -13,4 +13,7 @@ Features
 - [ ] Text
 - [ ] GUI
 
-
+## Installation
+1. Run ``compile.sh``
+2. Create ```build``` directory and run `cmake ..` from `build` directory 
+3. Run ``make``

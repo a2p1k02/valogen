@@ -4,6 +4,7 @@
 #include <vector>
 #include <optional>
 #include "valowin.h"
+#include "valoshader.h"
 
 const std::vector<const char*> validationLayers = {
         "VK_LAYER_KHRONOS_validation"
@@ -51,6 +52,7 @@ private:
     VkSurfaceKHR surface{};
     VkDebugUtilsMessengerEXT debugMessenger{};
     valowin window;
+    valoshader shader;
     std::vector<VkImage> swapChainImages;
     std::vector<VkImageView> swapChainImageViews;
     VkFormat swapChainImageFormat;

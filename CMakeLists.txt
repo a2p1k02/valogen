@@ -8,6 +8,8 @@ set(PROJECT_FILES
         src/engine/valowin.cpp
         src/engine/valoengine.h
         src/engine/valoengine.cpp
+        src/engine/valoshader.h
+        src/engine/valoshader.cpp
 )
 
 project(${PROJECT_NAME})
