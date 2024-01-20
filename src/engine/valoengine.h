@@ -50,6 +50,7 @@ private:
     VkQueue graphicsQueue{};
     VkQueue presentQueue{};
     VkSurfaceKHR surface{};
+    VkPipelineLayout pipelineLayout;
     VkDebugUtilsMessengerEXT debugMessenger{};
     valowin window;
     valoshader shader;
