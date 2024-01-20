@@ -9,11 +9,21 @@ const std::vector<const char*> validationLayers = {
         "VK_LAYER_KHRONOS_validation"
 };
 
+const std::vector<const char*> deviceExtensions = {
+        VK_KHR_SWAPCHAIN_EXTENSION_NAME
+};
+
 #ifdef NDEBUG
 const bool enableValidationLayers = false;
 #else
 const bool enableValidationLayers = true;
 #endif
+
+struct SwapChainSupportDetails {
+    VkSurfaceCapabilitiesKHR capabilities;
+    std::vector<VkSurfaceFormatKHR> formats;
+    std::vector<VkPresentModeKHR> presentModes;
+};
 
 struct QueueFamilyIndices {
     std::optional<uint32_t> graphicsFamily;
@@ -34,12 +44,14 @@ private:
     //Objects
     VkInstance instance{};
     VkPhysicalDevice physicalDevice{};
+    VkSwapchainKHR swapChain{};
     VkDevice vkDevice{};
     VkQueue graphicsQueue{};
     VkQueue presentQueue{};
     VkSurfaceKHR surface{};
     VkDebugUtilsMessengerEXT debugMessenger{};
     valowin window;
+    std::vector<VkImage> swapChainImages;
 
     //Classes methods
     void initVulkan();
@@ -47,13 +59,19 @@ private:
     void pickPhysicalDevice();
     void createLogicalDevice();
     void createSurface();
+    void createSwapChain();
     void cleanup();
 
     //Vulkan methods
     static bool checkValidationLayerSupport();
     bool isDeviceSuitable(VkPhysicalDevice device);
+    static bool checkDeviceExtensionSupport(VkPhysicalDevice device);
     static std::vector<const char *> getRequiredExtensions();
     QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+    SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
+    static VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+    static VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+    VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 
     //Debug
     static void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
