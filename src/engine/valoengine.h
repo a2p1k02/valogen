@@ -2,6 +2,7 @@
 #define VALOGEN_VALOENGINE_H
 
 #include <vector>
+#include <optional>
 #include "valowin.h"
 
 const std::vector<const char*> validationLayers = {
@@ -14,23 +15,45 @@ const bool enableValidationLayers = false;
 const bool enableValidationLayers = true;
 #endif
 
+struct QueueFamilyIndices {
+    std::optional<uint32_t> graphicsFamily;
+    std::optional<uint32_t> presentFamily;
+
+    [[nodiscard]] bool isComplete() const
+    {
+        return graphicsFamily.has_value() && presentFamily.has_value();
+    }
+};
+
 class valoengine {
 public:
     valoengine(int width, int height);
     ~valoengine();
     void start();
 private:
+    //Objects
     VkInstance instance{};
+    VkPhysicalDevice physicalDevice{};
+    VkDevice vkDevice{};
+    VkQueue graphicsQueue{};
+    VkQueue presentQueue{};
+    VkSurfaceKHR surface{};
     VkDebugUtilsMessengerEXT debugMessenger{};
-
     valowin window;
 
+    //Classes methods
     void initVulkan();
     void createInstance();
+    void pickPhysicalDevice();
+    void createLogicalDevice();
+    void createSurface();
     void cleanup();
-    static bool checkValidationLayerSupport();
 
+    //Vulkan methods
+    static bool checkValidationLayerSupport();
+    bool isDeviceSuitable(VkPhysicalDevice device);
     static std::vector<const char *> getRequiredExtensions();
+    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 
     //Debug
     static void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);

@@ -16,6 +16,11 @@ valowin::~valowin()
     glfwTerminate();
 }
 
+GLFWwindow* valowin::getWindowInstance()
+{
+    return m_window;
+}
+
 void valowin::render()
 {
     while (!glfwWindowShouldClose(m_window)) {

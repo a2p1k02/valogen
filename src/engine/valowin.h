@@ -9,6 +9,7 @@ public:
     valowin(int width, int height);
     ~valowin();
     void render();
+    GLFWwindow* getWindowInstance();
 private:
     GLFWwindow* m_window;
 
