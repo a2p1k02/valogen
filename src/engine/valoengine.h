@@ -51,6 +51,7 @@ private:
     VkQueue presentQueue{};
     VkSurfaceKHR surface{};
     VkPipelineLayout pipelineLayout;
+    VkRenderPass renderPass;
     VkDebugUtilsMessengerEXT debugMessenger{};
     valowin window;
     valoshader shader;
@@ -67,6 +68,7 @@ private:
     void createSurface();
     void createSwapChain();
     void createImageViews();
+    void createRenderPass();
     void createGraphicsPipeline();
     void cleanup();
 
