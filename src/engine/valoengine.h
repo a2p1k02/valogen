@@ -52,6 +52,9 @@ private:
     VkDebugUtilsMessengerEXT debugMessenger{};
     valowin window;
     std::vector<VkImage> swapChainImages;
+    std::vector<VkImageView> swapChainImageViews;
+    VkFormat swapChainImageFormat;
+    VkExtent2D swapChainExtent;
 
     //Classes methods
     void initVulkan();
@@ -60,6 +63,8 @@ private:
     void createLogicalDevice();
     void createSurface();
     void createSwapChain();
+    void createImageViews();
+    void createGraphicsPipeline();
     void cleanup();
 
     //Vulkan methods
