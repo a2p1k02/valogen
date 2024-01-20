@@ -3,8 +3,8 @@
 Simple 3D engine with Vulkan API
 
 Features
-- [ ] Window system
-- [ ] Shader class
+- [x] Window system
+- [x] Shader class
 - [ ] Textures
 - [ ] Camera
 - [ ] 3D
