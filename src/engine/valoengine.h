@@ -52,6 +52,7 @@ private:
     VkSurfaceKHR surface{};
     VkPipelineLayout pipelineLayout;
     VkRenderPass renderPass;
+    VkPipeline graphicsPipeline;
     VkDebugUtilsMessengerEXT debugMessenger{};
     valowin window;
     valoshader shader;
