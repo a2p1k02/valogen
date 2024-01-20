@@ -19,21 +19,28 @@ valoengine::~valoengine()
 
 void valoengine::cleanup()
 {
+    for (auto framebuffer : swapChainFramebuffers) {
+        vkDestroyFramebuffer(vkDevice, framebuffer, nullptr);
+    }
+
     vkDestroyPipeline(vkDevice, graphicsPipeline, nullptr);
     vkDestroyPipelineLayout(vkDevice, pipelineLayout, nullptr);
     vkDestroyRenderPass(vkDevice, renderPass, nullptr);
+
     for (auto imageView : swapChainImageViews) {
         vkDestroyImageView(vkDevice, imageView, nullptr);
     }
 
     vkDestroySwapchainKHR(vkDevice, swapChain, nullptr);
     vkDestroyDevice(vkDevice, nullptr);
+
     if (enableValidationLayers) {
         DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
     }
 
     vkDestroySurfaceKHR(instance, surface, nullptr);
     vkDestroyInstance(instance, nullptr);
+
     window.~valowin();
 
     physicalDevice = VK_NULL_HANDLE;
@@ -55,6 +62,30 @@ void valoengine::initVulkan()
     createImageViews();
     createRenderPass();
     createGraphicsPipeline();
+    createFramebuffers();
+}
+
+void valoengine::createFramebuffers()
+{
+    swapChainFramebuffers.resize(swapChainImageViews.size());
+    for (size_t i = 0; i < swapChainImageViews.size(); i++) {
+        VkImageView attachments[] = {
+                swapChainImageViews[i]
+        };
+
+        VkFramebufferCreateInfo framebufferCreateInfo{};
+        framebufferCreateInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+        framebufferCreateInfo.renderPass = renderPass;
+        framebufferCreateInfo.attachmentCount = 1;
+        framebufferCreateInfo.pAttachments = attachments;
+        framebufferCreateInfo.width = swapChainExtent.width;
+        framebufferCreateInfo.height = swapChainExtent.height;
+        framebufferCreateInfo.layers = 1;
+
+        if (vkCreateFramebuffer(vkDevice, &framebufferCreateInfo, nullptr, &swapChainFramebuffers[i]) != VK_SUCCESS) {
+            throw std::runtime_error("failed to create framebuffer!");
+        }
+    }
 }
 
 void valoengine::createRenderPass()
